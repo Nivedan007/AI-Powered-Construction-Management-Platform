@@ -1,3 +1,5 @@
+"use client";
+
 import {
   AlertTriangle,
   ArrowUpRight,
@@ -16,6 +18,7 @@ import {
 import { TopBar } from "@/components/layout/TopBar";
 import { AnimatedCard } from "@/components/ui/AnimatedCard";
 import { ProgressChart } from "@/components/charts/ProgressChart";
+import { AnimatedMetricCard, PulsingBadge, RotatingIcon, ScalingProgressBar } from "@/components/animations/ClientAnimationWrapper";
 
 const actions = [
   { title: "Approve revised budget", project: "Metro Link Station Block", risk: "High", owner: "Finance" },
@@ -45,7 +48,7 @@ export default function DashboardPage() {
         <div className="panel overflow-hidden rounded-3xl px-6 py-6 md:px-8">
           <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-center">
             <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-sky-300">Executive Overview</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-cyan-300">Executive Overview</p>
               <h2 className="mt-2 text-3xl font-semibold tracking-tight md:text-4xl">
                 Program Health Is Stable, 3 Critical Actions Pending
               </h2>
@@ -54,11 +57,11 @@ export default function DashboardPage() {
                 procurement and weather-sensitive milestones.
               </p>
             </div>
-            <div className="grid gap-3 rounded-2xl border border-sky-300/20 bg-sky-400/10 px-4 py-3 text-sm md:min-w-72">
-              <p className="font-semibold text-sky-100">Forecast Update</p>
+            <div className="grid gap-3 rounded-2xl border border-cyan-300/20 bg-cyan-400/10 px-4 py-3 text-sm md:min-w-72">
+              <p className="font-semibold text-cyan-100">Forecast Update</p>
               <div className="flex items-center justify-between">
                 <span className="text-slate-200">On-time completion probability</span>
-                <span className="font-semibold text-sky-200">78%</span>
+                <span className="font-semibold text-cyan-200">78%</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-slate-200">Risk trend</span>
@@ -82,17 +85,21 @@ export default function DashboardPage() {
           {metrics.map((metric) => {
             const Icon = metric.icon;
             return (
-              <div key={metric.label} className="card-gradient group">
-                <div className="flex items-start justify-between mb-4">
-                  <Icon className={`h-6 w-6 ${metric.color}`} />
-                  <span className="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-1 rounded-full">{metric.change}</span>
+              <AnimatedMetricCard key={metric.label}>
+                <div className="card-gradient group h-full">
+                  <div className="flex items-start justify-between mb-4">
+                    <Icon className={`h-6 w-6 ${metric.color}`} />
+                    <PulsingBadge>
+                      <span className="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-1 rounded-full">{metric.change}</span>
+                    </PulsingBadge>
+                  </div>
+                  <p className="text-sm text-slate-400">{metric.label}</p>
+                  <p className="text-3xl font-bold text-slate-100 mt-2">{metric.value}</p>
+                  <div className="mt-3">
+                    <ScalingProgressBar percentage={94} />
+                  </div>
                 </div>
-                <p className="text-sm text-slate-400">{metric.label}</p>
-                <p className="text-3xl font-bold text-slate-100 mt-2">{metric.value}</p>
-                <div className="h-1.5 w-full bg-slate-800/50 rounded-full mt-3 overflow-hidden">
-                  <div className="h-full w-[94%] bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full" />
-                </div>
-              </div>
+              </AnimatedMetricCard>
             );
           })}
         </div>
@@ -110,11 +117,11 @@ export default function DashboardPage() {
           <article className="panel rounded-2xl p-5 xl:col-span-2">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-lg font-semibold">Action Center</h3>
-              <span className="badge text-amber-300">Priority Queue</span>
+              <PulsingBadge><span className="badge text-amber-300">Priority Queue</span></PulsingBadge>
             </div>
             <div className="space-y-3">
               {actions.map((action) => (
-                <div key={action.title} className="rounded-xl border border-slate-700/60 bg-slate-950/30 p-4">
+                <div key={action.title} className="rounded-xl border border-slate-700/60 bg-slate-950/30 p-4 hover:bg-slate-950/60 transition">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <p className="font-medium">{action.title}</p>
                     <span className={`badge ${action.risk === "High" ? "text-rose-300" : "text-amber-300"}`}>
@@ -131,7 +138,7 @@ export default function DashboardPage() {
           <article className="panel rounded-2xl p-5">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-lg font-semibold">Live Feed</h3>
-              <Sparkles className="h-4 w-4 text-sky-300" />
+              <RotatingIcon><Sparkles className="h-4 w-4 text-cyan-300" /></RotatingIcon>
             </div>
             <div className="space-y-3">
               {updates.map((item) => (
