@@ -7,7 +7,11 @@ import {
   IndianRupee,
   ShieldAlert,
   Sparkles,
-  Users
+  Users,
+  TrendingUp,
+  Zap,
+  Clock,
+  Target
 } from "lucide-react";
 import { TopBar } from "@/components/layout/TopBar";
 import { AnimatedCard } from "@/components/ui/AnimatedCard";
@@ -24,6 +28,13 @@ const updates = [
   { label: "Rain alert issued for Bengaluru site", time: "34m ago", type: "warning" },
   { label: "Vendor invoice mismatch detected", time: "1h ago", type: "error" },
   { label: "Crew utilization reached 93%", time: "2h ago", type: "success" }
+];
+
+const metrics = [
+  { icon: TrendingUp, label: "Productivity", value: "94%", change: "+5.2%", color: "text-emerald-300" },
+  { icon: Zap, label: "Efficiency", value: "87%", change: "+2.1%", color: "text-cyan-300" },
+  { icon: Clock, label: "On-time Rate", value: "82%", change: "-1.3%", color: "text-amber-300" },
+  { icon: Target, label: "Budget Control", value: "79%", change: "+3.7%", color: "text-blue-300" }
 ];
 
 export default function DashboardPage() {
@@ -66,11 +77,31 @@ export default function DashboardPage() {
           <AnimatedCard title="Budget Utilization" value="64%" subtitle="Within target range" />
         </div>
 
+        {/* Real-time Metrics Grid */}
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <div className="glass flex items-center gap-3 rounded-2xl p-4"><Building2 className="text-sky-300" /> Multi-site tracking</div>
-          <div className="glass flex items-center gap-3 rounded-2xl p-4"><AlertTriangle className="text-amber-300" /> Delay signals monitored</div>
-          <div className="glass flex items-center gap-3 rounded-2xl p-4"><Users className="text-mint-300" /> Role-based collaboration</div>
-          <div className="glass flex items-center gap-3 rounded-2xl p-4"><IndianRupee className="text-rose-300" /> Budget health insights</div>
+          {metrics.map((metric) => {
+            const Icon = metric.icon;
+            return (
+              <div key={metric.label} className="card-gradient group">
+                <div className="flex items-start justify-between mb-4">
+                  <Icon className={`h-6 w-6 ${metric.color}`} />
+                  <span className="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-1 rounded-full">{metric.change}</span>
+                </div>
+                <p className="text-sm text-slate-400">{metric.label}</p>
+                <p className="text-3xl font-bold text-slate-100 mt-2">{metric.value}</p>
+                <div className="h-1.5 w-full bg-slate-800/50 rounded-full mt-3 overflow-hidden">
+                  <div className="h-full w-[94%] bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full" />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <div className="glass flex items-center gap-3 rounded-2xl p-4 hover:border-cyan-500/40 transition"><Building2 className="text-cyan-300" /> Multi-site tracking</div>
+          <div className="glass flex items-center gap-3 rounded-2xl p-4 hover:border-cyan-500/40 transition"><AlertTriangle className="text-amber-300" /> Delay signals monitored</div>
+          <div className="glass flex items-center gap-3 rounded-2xl p-4 hover:border-cyan-500/40 transition"><Users className="text-emerald-300" /> Role-based collaboration</div>
+          <div className="glass flex items-center gap-3 rounded-2xl p-4 hover:border-cyan-500/40 transition"><IndianRupee className="text-blue-300" /> Budget health insights</div>
         </div>
 
         <ProgressChart />

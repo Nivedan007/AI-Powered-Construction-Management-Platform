@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import AuthInit from "@/components/AuthInit";
 import { ChatAssistant } from "@/components/chat/ChatAssistant";
+import { ToastContainer } from "@/components/notifications/Toast";
 
 export const metadata: Metadata = {
   title: "BuildTrack AI | Enterprise Construction Intelligence",
@@ -14,6 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-mesh fade-grid antialiased">
         <AuthInit />
         <ChatAssistant />
+        <ToastContainer />
         {children}
       </body>
     </html>
