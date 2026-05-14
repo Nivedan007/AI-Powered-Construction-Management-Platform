@@ -36,6 +36,8 @@ NEXT_PUBLIC_API_URL=https://your-api.render.com
 NEXT_PUBLIC_DEMO_TOKEN=<leave empty for production>
 ```
 
+If you import the Git repository directly into Vercel, make sure the project Root Directory is set to `client`, or keep the root-level `vercel.json` in place so Vercel builds `client/package.json`.
+
 #### Render (Backend)
 1. **Create PostgreSQL Database**
    - Dashboard → PostgreSQL → Create
